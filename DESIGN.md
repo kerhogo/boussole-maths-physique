@@ -1,11 +1,11 @@
 # Boussole Maths-Physique : conception
 
-> Document à valider avant de coder. Il reprend la mécanique de Boussole SES-Maths et le cahier des charges commun, adaptés à un élève de terminale générale avec les spécialités maths + physique-chimie, avec ou sans maths expertes. ✱ = nouveau par rapport à SES.
+> Document de conception, validé le 5 octobre 2026 avant de coder. Il reprend la mécanique de Boussole SES-Maths et le cahier des charges commun, adaptés à un élève de terminale générale avec les spécialités maths + physique-chimie, avec ou sans maths expertes. ✱ = nouveau par rapport à SES. Ce qui a changé pendant le développement est résumé à la fin (section 9).
 
 ## En bref
 
 - **Même squelette que SES** : 6 blocs (10 à 12 minutes), profil rédigé, top 5 justifié, « À creuser aussi », « À côté de ce que tu imagines », « Si tu ne sais vraiment pas encore », questions pour aller plus loin, calendrier, exports PDF et HTML, « Partager mon lien », sauvegarde sur l'appareil.
-- **Contenu réécrit** : 11 axes de profil, 39 questions à choix et 5 champs libres (SES : 35 et 4), environ 78 types de formations répartis en 9 familles.
+- **Contenu réécrit** : 11 axes de profil, 40 questions à choix (dont 1 conditionnelle) et 5 champs libres (dont 1 conditionnel), 80 fiches de formations réparties en 9 familles.
 - **Nouveautés testées ici avant la version toutes spécialités** :
   - la question « Une école d'ingénieurs, pour toi c'est… » ;
   - le curseur « garder un profil large ↔ me spécialiser tôt », qui départage écoles généralistes et spécialisées ;
@@ -13,14 +13,15 @@
   - les **idées de départ** : l'élève écrit « ESTACA » ou « INSA », la boussole retrouve la fiche et montre où elle tombe dans ses pistes ;
   - les **notes aux relances**, reprises telles quelles dans la synthèse et les exports ;
   - les **options conseillées** par formation (maths expertes, NSI, SI, SVT), affichées et prises en compte.
-- **Retiré de SES** : la spé arrêtée en première, le curseur « calculer ↔ écrire », le bandeau de nouveautés, la lecture des anciens liens.
+- **Pas repris de SES** : le curseur « calculer ↔ écrire » (voir bloc 3). Le bandeau de nouveautés (il prévient ceux qui reviennent après une mise à jour) et la lecture des liens d'une ancienne version n'ont pas lieu d'être sur un site neuf ; le mécanisme de versions du lien reste prêt pour la suite.
 
-## À trancher
+## Décisions validées
 
 1. **11 axes au lieu de 10.** Je sépare « Entreprise, finance & management » de « Humain : soigner, transmettre, accompagner ». S'ils étaient regroupés, un élève attiré par la finance verrait monter un axe qui parle aussi de soigner et d'enseigner.
 2. **Idées de départ.** Si l'élève répond « J'ai déjà quelques idées », un champ libre s'affiche : « Lesquelles ? Écoles, formations, métiers… ». La boussole reconnaît les noms connus (les écoles citées en exemple dans les fiches, les sigles comme MPSI, CUPGE ou BUT GMP, quelques métiers comme pilote, kiné ou architecte). En haut des résultats, elle indique pour chaque idée la fiche correspondante, son rang dans les pistes, le pourquoi et les points d'attention. Les noms non reconnus sont repris tels quels. C'est la réponse directe au cas « je pense à ESTACA ou à une généraliste ».
 3. **Une ouverture hors sciences.** J'ajoute le centre d'intérêt « La société, la politique, le droit » et 3 fiches : Sciences Po et IEP, économie (licence ou double licence maths-éco), prépa ECG. L'autre option est de ne les laisser que dans « Tout ce qui existe ».
-4. **Écoles d'ingénieurs découpées par statut et par domaine.** Environ 14 fiches au lieu d'une : aéro-auto privées, généralistes privées, numérique, BTP, chimie, agronomie, apprentissage, INSA, UT, Polytech, Prépa des INP, prépas intégrées de chimie… C'est ce qui permet de répondre « spécialisée ou généraliste, publique ou privée, dès le bac ou après une prépa ».
+4. **Écoles d'ingénieurs découpées par statut et par domaine.** 14 fiches au lieu d'une : aéro-auto privées, généralistes privées, numérique, BTP, chimie, agronomie, apprentissage, INSA, UT, Polytech, Prépa des INP, prépas intégrées de chimie… C'est ce qui permet de répondre « spécialisée ou généraliste, publique ou privée, dès le bac ou après une prépa ».
+5. **La 3e spécialité de première** (`spe1` : SVT, NSI, SI, autre), question factuelle utilisée seulement pour les options conseillées (« NSI conseillée : mets-toi à Python avant la rentrée »).
 
 ## 1. Les axes du profil
 
@@ -50,6 +51,7 @@ Principe clé : les écoles **généralistes** ont des poids étalés sur plusie
 |---|---|---|
 | `prenom` | Ton prénom | texte facultatif |
 | `maths_opt` | En maths cette année, tu as… | La spécialité seulement · La spécialité + l'option maths expertes · Je ne sais plus |
+| `spe1` ✱ | En première, ta 3e spécialité (celle que tu as arrêtée) était… | SVT · NSI · SI · Une autre · Je ne sais plus |
 | `moy` | Ta moyenne générale, à peu près | Moins de 10 · 10 à 12 · 12 à 14 · 14 à 16 · 16 et plus · ? |
 | `niv_maths` | Ta moyenne en maths | idem |
 | `niv_pc` ✱ | Ta moyenne en physique-chimie | idem |
@@ -142,7 +144,7 @@ Relance : « Parmi ce que tu as coché, sur quoi tu pourrais regarder des vidéo
 | `e_fac` | La fac : amphis, beaucoup d'autonomie, peu de suivi au début | Ça me va · Bof · Non · ? |
 | `e_alt` | L'alternance : une partie du temps en entreprise, payé, formation gratuite | Ça me tente · Pourquoi pas · Non · ? |
 | `e_mob` | Pour tes études, tu te vois… | Chez mes parents · Dans ma région · N'importe où en France · Pourquoi pas à l'étranger |
-| `e_budget` | Une école privée (fourchette réelle des écoles d'ingénieurs privées, à vérifier) | Envisageable · Seulement en alternance ou avec une aide · Non, plutôt le public · À voir avec les parents |
+| `e_budget` | Une école privée (pour une école d'ingénieurs, souvent 8 000 à 12 000 € par an) | Envisageable · Seulement en alternance ou avec une aide · Non, plutôt le public · À voir avec les parents |
 | `e_conc` | Un concours écrit, un QCM ou un entretien juste après le bac | Pas de souci · Bof · Je préfère éviter |
 | `e_cesure` | Une année pour souffler, bosser ou voyager avant de reprendre | Ça me tente · Peut-être · Non, j'enchaîne |
 
@@ -189,7 +191,7 @@ Elle doit se lire en une minute sur un téléphone, avec le détail replié.
 
 - **Portrait** en 2 ou 3 phrases : les axes dominants, la façon de bosser (dont « garder un profil large » ou « te spécialiser tôt »), les études (dont l'école dès le bac et l'idée d'école d'ingénieurs).
 - **Les 3 axes dominants**, les 8 autres repliés. Étiquettes « façon de bosser » et « à éviter ».
-- **Tes idées de départ** ✱, si l'élève en a donné (voir « À trancher », point 2).
+- **Tes idées de départ** ✱, si l'élève en a donné (voir « Décisions validées », point 2, et la section 9).
 - **Ce qui tiraille** : 2 tensions au plus, choisies dans cette liste.
   1. Bac+5 visé sans prépa ni fac : restent les écoles post-bac (publiques sur dossier comme les INSA, les UT ou Polytech, ou payantes) et le BUT suivi d'une école en admission parallèle.
   2. Aéro, auto ou transports cochés et budget « non » : les écoles spécialisées type ESTACA ou IPSA sont privées, mais des routes publiques existent (INSA, UT, Polytech, prépa puis écoles publiques de l'aéro, BUT GMP puis école, apprentissage).
@@ -202,6 +204,7 @@ Elle doit se lire en une minute sur un téléphone, avec le détail replié.
   9. Envie de concevoir des machines, mais pas de l'atelier : plutôt le bureau d'études que la production.
   10. Pas d'école d'ingénieurs, mais beaucoup d'intérêts techniques : BUT, licences ou BTS permettent de faire de la technique sans ce format.
   11. Repris de SES : bien gagner sa vie et être utile ; l'international mais rester chez ses parents ; la prépa mais pas de pression.
+  12. Ajouté pendant le développement : budget « à voir avec les parents » alors que des écoles privées sont dans le top 5 (coût annuel et routes publiques équivalentes).
 - **Questions pour aller plus loin** : celles de SES qui valent pour tous, plus des questions propres au combo, par exemple « Tu as cité ESTACA : c'est le domaine (aéro, auto) ou le format (5 ans, des projets) qui t'attire ? » ou « Généraliste ou spécialisée : qu'est-ce qui te ferait trancher ? ».
 - **Tes notes** ✱.
 
@@ -221,24 +224,25 @@ Des **types de formations**, à la même granularité que SES, avec 3 à 6 exemp
 - **Création** : écoles d'architecture · DN MADE ◆ · design industriel ◇ ◆ · son et image ◇ ◆.
 - **Autres voies** : écoles de commerce post-bac ◆ · écoles d'informatique hors titre d'ingénieur (Epitech, 42) · armées, officiers ◇ ◆ · armées, sous-officiers techniciens ◇ ◆ · pilote de ligne ◇ ◆ · marine marchande ◇ ◆ · météo et climat ◇ · études à l'étranger (EPFL, Belgique, Québec…) · bachelors scientifiques sélectifs (Bachelor de l'École polytechnique…) ◇ · Sciences Po et IEP ◇ ◆ · année de césure.
 
-Le BTS a déjà été rédigé et vérifié (13 fiches). Le reste sera rédigé puis vérifié par des sous-agents en parallèle, une famille chacun.
+Les 80 fiches ont été rédigées puis vérifiées le 5 octobre 2026, une famille par sous-agent, chacune avec un lien officiel ouvert et contrôlé. Sources et points incertains : `dev/facts_*.md`. Ajouts pendant la vérification : une fiche « Études vétérinaires après le bac » dans Santé ; ESTP retirée des exemples BTP (pas de cycle ingénieur direct après le bac).
 
-**Plus compliqué avec maths + physique-chimie** (rubrique courte) : les prépas TSI, TPC et TB, réservées à d'autres bacs, et la prépa ATS, qui se fait après un bac+2 ; les licences de biologie et les études vétérinaires sans SVT (à vérifier).
+**Plus compliqué avec maths + physique-chimie** (rubrique courte) : les prépas TSI, TPC et TB, réservées à d'autres bacs ; la prépa ATS, qui se fait après un bac+2 ; les licences de biologie sans SVT.
 
 ## 6. Calendrier
 
-- Les dates Parcoursup 2027 de SES, revérifiées : site d'information le 17 décembre 2026, vœux du 19 janvier au 12 mars 2027, dossiers et confirmation jusqu'au 1er avril, premières réponses à partir du 2 juin, phase complémentaire à partir du 11 juin.
-- En plus : les concours post-bac des écoles d'ingénieurs (Avenir, Puissance Alpha, Geipi Polytech, Advance), dont les vœux passent par Parcoursup et les épreuves ont lieu au printemps (dates 2027 à vérifier), et les journées portes ouvertes de novembre à février.
+- Le calendrier officiel de Parcoursup 2027 n'était pas publié le 5 octobre 2026 : la page affiche des dates prévisionnelles, d'après le calendrier 2026 (mi-décembre, mi-janvier à mi-mars, début avril, début juin), et le dit.
+- En plus : les concours post-bac des écoles d'ingénieurs (Avenir, Puissance Alpha, Geipi Polytech, Advance), dont les vœux passent par Parcoursup, avec les dates d'épreuves 2027 annoncées, et les journées portes ouvertes de novembre à février.
 - Dans la note, ce qui se passe hors Parcoursup : l'étranger, certaines écoles privées, les écoles de pilotage.
 
 ## 7. Technique
 
 - Pars d'une copie de l'`index.html` de SES : identité visuelle (cahier, bic, fluo), ergonomie mobile, accessibilité, sauvegarde locale avec bandeau « Continuer · Recommencer à zéro », exports, lien de partage.
 - Clé de stockage `boussole-maths-physique-v1`, `SCHEMA = 1`, lien de partage en version 1 : on ajoute toujours à la fin de `ORDER`, on ne réordonne jamais.
-- Champs de fiche nouveaux : `mpc` (remplace `ses`), `inge`, `conseil`, `alias` (noms reconnus dans les idées de départ), et dans `p` : `phys`, `chim`, `code`, `indus`, `gen`, `integ`.
+- Champs de fiche nouveaux : `mpc` (remplace `ses`), `inge`, `conseil`, `alias` (noms reconnus dans les idées de départ), `vie` (mode de vie très marqué), et dans `p` : `phys`, `chim`, `bio`, `code`, `indus`, `gen`, `integ`, `compet`, `minor`.
+- Un seul fichier : `index.html` contient le questionnaire, le moteur et le catalogue. Les scripts de `dev/` le lisent directement.
 - Exports : réponses multiples séparées par « · » (leçon SES), notes et idées de départ incluses.
 
-## 8. Tests prévus
+## 8. Tests
 
 - Script Node qui exécute le moteur sans navigateur, avec 8 profils fictifs :
   1. aéro et auto, maths expertes, bon niveau, école d'ingénieurs en idée principale, budget à voir, prépa « pourquoi pas », envie de se spécialiser ;
@@ -251,3 +255,16 @@ Le BTS a déjà été rédigé et vérifié (13 fiches). Le reste sera rédigé 
   8. numérique et IA.
 - Invariants automatiques : id uniques, un lien par fiche, chaque intérêt mène à au moins 2 fiches, l'aller-retour du lien de partage redonne les mêmes réponses (notes comprises), aucun plantage avec des réponses vides, partielles ou toutes en « ? ».
 - Parcours complet dans un navigateur en vue mobile, PDF, page HTML, lien, remise à zéro, puis vérification de la version en ligne.
+- Scripts : `node dev/check_cat.js` (catalogue), `node dev/test_profils.js` (moteur, profils, idées de départ, lien), `node dev/test_navigateur.js` (parcours complet dans Chromium, avec Playwright et pdfmake installés).
+
+## 9. Ce qui a changé pendant le développement
+
+- **Sélection et compétition séparées.** Une sélection juste après le bac (écrits, QCM, entretien) et une compétition plus tard (concours de fin de prépa, classement de 1re année) ne jouent pas sur les mêmes réponses : « un concours juste après le bac » vise la première, « éviter les concours, la compétition » vise la seconde. Sans ça, l'INSA disparaissait pour qui refuse les concours.
+- **Généralistes.** Une école généraliste couvre aussi, moins directement, les autres domaines techniques cochés : petit bonus par domaine coché qu'elle ne cite pas.
+- **Biologie.** Les voies très biologiques (santé, véto, agro) descendent si « le vivant » ne plaît pas, avec un point d'attention.
+- **Formations pensées pour d'autres bacs** (bachelor Arts et Métiers, BTS CRSA…) : léger malus et point d'attention « tu y serais en minorité ».
+- **Armées** : elles n'entrent en tête qu'avec un intérêt pour la défense ou le pilotage.
+- **Marine marchande** : l'intérêt « transports » ne suffit plus à la mettre dans le top 5. Il faut aussi un signal pour la vie qu'elle implique (« aux commandes : pilote, marin, militaire », « en déplacement, à l'étranger », « voyager » ou l'international) ; sinon elle descend un peu, avec le point d'attention « de longues périodes en mer ».
+- **Idées de départ, élargies** pour ne pas dépendre d'un nom exact : en plus des près de 470 noms d'écoles, sigles et métiers tirés des fiches, la boussole reconnaît les grandes écoles qu'on vise après une prépa (Centrale, Mines, Supaéro…), environ 230 mots répartis sur les 26 domaines (« fusée », « centrale nucléaire », « ponts », « jeux vidéo »…) et les types d'études (écoles d'ingénieurs, généralistes, prépa, fac, BUT, BTS, alternance). Elle lit le champ « Lesquelles ? » et le métier ou domaine qui a intrigué l'élève. Un texte non reconnu reste affiché tel quel, avec une invitation à chercher dans le catalogue. Rien de tout ça ne change le classement.
+- **Lien de partage collé dans un onglet déjà ouvert** : il est lu sans recharger la page.
+- **PDF** : les 5 premières pistes peuvent se couper entre l'essentiel et l'accès-débouchés, pour éviter les grandes pages blanches ; les idées de départ ouvrent la deuxième page.
